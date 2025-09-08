@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MERN Full Stack Developer Course | Metaglobe Institute</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+
+  <script>
+document.addEventListener("DOMContentLoaded", function () {
+    const enquiryForm = document.getElementById("enquiryForm");
+
+    enquiryForm.addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        let name = document.getElementById("name").value.trim();
+        let email = document.getElementById("email").value.trim();
+        let phone = document.getElementById("phone").value.trim();
+        let interest = document.getElementById("interest").value;
+
+        // तुमचा WhatsApp नंबर (91 + मोबाईल नंबर, + लावायचा नाही)
+        let whatsappNumber = "919322687436";
+
+        // Proper encoded message तयार करतो
+        let message = `Hello, I would like to enquire about the course.%0A%0A` +
+                      `👤 Name: ${encodeURIComponent(name)}%0A` +
+                      `📧 Email: ${encodeURIComponent(email)}%0A` +
+                      `📞 Phone: ${encodeURIComponent(phone)}%0A` +
+                      `🎯 Interest: ${encodeURIComponent(interest)}`;
+
+        let whatsappURL = `https://wa.me/${whatsappNumber}?text=${message}`;
+
+        // WhatsApp open करा
+        window.open(whatsappURL, "_blank");
+
+        // Optional: Success message दाखवायचा असल्यास
+        enquiryForm.style.display = "none";
+        document.querySelector(".form-success").style.display = "block";
+
+        setTimeout(() => {
+            enquiryForm.reset();
+            enquiryForm.style.display = "block";
+            document.querySelector(".form-success").style.display = "none";
+        }, 5000);
+    });
+});
+</script>
+
+  <style>
+    /* ====== BASE STYLES ====== */
+:root {
+  --primary: #33abc9;
+  --primary-dark: #16688b;
+  --accent: #FF6584;
+  --dark: #2D3748;
+  --light: #F7FAFC;
+  --gray: #E2E8F0;
+  --gradient: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 5px 20px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.15);
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  color: var(--dark);
+  background-color: #F8F9FA;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* ====== NAVBAR ====== */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+  transition: var(--transition);
+}
+
+.navbar.scrolled {
+  background-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.nav-logo img {
+  height: 40px;
+  margin-right: 10px;
+}
+
+.logo-text {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--primary-dark);
+}
+
+.logo-text span {
+  color: var(--primary);
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  margin-left: 20px;
+  position: relative;
+}
+
+.nav-link {
+  color: var(--dark);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+}
+
+.nav-link i {
+  margin-right: 8px;
+  font-size: 0.9rem;
+}
+
+.nav-link:hover {
+  color: var(--primary);
+  background-color: rgba(51, 171, 201, 0.1);
+}
+
+.nav-link.active {
+  color: white;
+  background: var(--gradient);
+}
+
+.nav-link.active:hover {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+}
+
+.nav-cta {
+  background: var(--gradient);
+  color: white !important;
+  padding: 8px 20px !important;
+  box-shadow: 0 5px 15px rgba(51, 171, 201, 0.3);
+}
+
+.nav-cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(51, 171, 201, 0.4);
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+}
+
+.hamburger {
+  display: none;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 10px;
+}
+
+.hamburger i {
+  font-size: 1.5rem;
+  color: var(--primary-dark);
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: var(--shadow-lg);
+  padding: 10px 0;
+  min-width: 200px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: var(--transition);
+  z-index: 100;
+}
+
+.nav-item:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-item {
+  display: block;
+  padding: 10px 20px;
+  color: var(--dark);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.dropdown-item:hover {
+  background-color: rgba(51, 171, 201, 0.1);
+  color: var(--primary);
+}
+
+/* ====== HERO SECTION ====== */
+.hero-section {
+  background: var(--gradient);
+  color: white;
+  padding: 180px 20px 120px; /* Increased top padding for navbar */
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="rgba(255,255,255,0.05)" d="M0,0 L100,0 L100,100 L0,100 Z" /></svg>');
+  background-size: cover;
+  opacity: 0.1;
+  z-index: 0;
+}
+
+.hero-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+  gap: 40px;
+}
+
+.hero-content {
+  flex: 1;
+  text-align: left;
+}
+
+.hero-section h1 {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.hero-section p {
+  font-size: 1.5rem;
+  max-width: 800px;
+  margin: 0 0 30px;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.gap-3 {
+  gap: 1rem;
+}
+
+.badge {
+  display: inline-block;
+  font-weight: 500;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.hero-badge {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50px;
+  transition: var(--transition);
+  font-size: 1rem;
+  padding: 8px 16px;
+}
+
+.hero-badge:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.fs-6 {
+  font-size: 1rem;
+}
+
+.py-2 {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.px-3 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.me-2 {
+  margin-right: 0.5rem;
+}
+
+.ms-2 {
+  margin-left: 0.5rem;
+}
+
+/* ====== ENQUIRY FORM ====== */
+.enquiry-form {
+  flex: 0 0 400px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  transform: translateY(20px);
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out forwards 0.4s;
+}
+
+.enquiry-form h3 {
+  color: var(--primary-dark);
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: var(--dark);
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid var(--gray);
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  transition: var(--transition);
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(51, 171, 201, 0.2);
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 12px;
+  background: var(--gradient);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 5px 15px rgba(51, 171, 201, 0.3);
+}
+
+.btn-submit:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(51, 171, 201, 0.4);
+}
+
+.form-success {
+  display: none;
+  text-align: center;
+  padding: 20px;
+  color: var(--primary-dark);
+}
+
+.form-success i {
+  font-size: 3rem;
+  color: #28a745;
+  margin-bottom: 15px;
+}
+
+/* ====== COURSE HIGHLIGHTS ====== */
+.course-highlights {
+  background: white;
+  border-radius: 15px;
+  padding: 40px;
+  margin: 50px auto;
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+}
+
+.course-highlights:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -15px;
+}
+
+.col-md-6 {
+  flex: 0 0 50%;
+  max-width: 50%;
+  padding: 0 15px;
+}
+
+.highlight-item {
+  margin-bottom: 25px;
+  padding: 20px;
+  border-radius: 10px;
+  background: #F8F9FA;
+  transition: var(--transition);
+}
+
+.highlight-item:hover {
+  background: white;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transform: translateX(5px);
+}
+
+.highlight-item h5 {
+  color: var(--primary);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  font-size: 1.1rem;
+}
+
+.highlight-item h5 i {
+  margin-right: 10px;
+  font-size: 1.2rem;
+}
+
+.tool-badge {
+  background: white;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  margin-right: 8px;
+  margin-bottom: 8px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-weight: 500;
+  transition: var(--transition);
+  font-size: 0.9rem;
+}
+
+.tool-badge:hover {
+  background: var(--primary);
+  color: white;
+  transform: scale(1.05);
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem;
+}
+
+.mb-5 {
+  margin-bottom: 3rem;
+}
+
+/* ====== COURSE SYLLABUS ====== */
+.month-card {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  margin-bottom: 30px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  border-left: 5px solid var(--primary);
+}
+
+.month-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+.month-header {
+  background: var(--gradient);
+  color: white;
+  padding: 20px;
+}
+
+.month-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.card-body {
+  padding: 25px;
+}
+
+.week-item {
+  margin-bottom: 25px;
+  padding-bottom: 25px;
+  border-bottom: 1px dashed var(--gray);
+}
+
+.week-item:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.week-item h5 {
+  color: var(--primary-dark);
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+}
+
+.week-item h5 i {
+  margin-right: 10px;
+}
+
+.week-item ul {
+  list-style: none;
+  padding-left: 20px;
+}
+
+.week-item ul li {
+  position: relative;
+  margin-bottom: 8px;
+  padding-left: 25px;
+}
+
+.week-item ul li::before {
+  content: '\f00c';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+}
+
+/* ====== WHO SHOULD ENROLL ====== */
+.mt-5 {
+  margin-top: 3rem;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.5rem;
+}
+
+.border-0 {
+  border: 0 !important;
+}
+
+.shadow-sm {
+  box-shadow: var(--shadow-sm) !important;
+}
+
+.card-body {
+  flex: 1 1 auto;
+  padding: 1.5rem;
+}
+
+.card-title {
+  margin-bottom: 1rem;
+}
+
+.list-group {
+  display: flex;
+  flex-direction: column;
+  padding-left: 0;
+  margin-bottom: 0;
+  border-radius: 0.5rem;
+}
+
+.list-group-flush {
+  border-radius: 0;
+}
+
+.list-group-item {
+  position: relative;
+  display: block;
+  padding: 0.75rem 1.25rem;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-width: 0 0 1px;
+}
+
+.list-group-item:last-child {
+  border-bottom-width: 0;
+}
+
+.text-success {
+  color: #28a745 !important;
+}
+
+.small {
+  font-size: 0.875rem;
+}
+
+.text-muted {
+  color: #6c757d !important;
+}
+
+.col-6 {
+  flex: 0 0 50%;
+  max-width: 50%;
+  padding: 0 15px;
+}
+
+.career-card {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  height: 100%;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition: var(--transition);
+  border: 1px solid var(--gray);
+}
+
+.career-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border-color: var(--primary);
+}
+
+.career-card i {
+  color: var(--primary);
+}
+
+.fa-2x {
+  font-size: 1.5em;
+}
+
+/* ====== FOOTER ====== */
+.footer {
+  background: var(--dark);
+  color: white;
+  padding: 80px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.1;
+  z-index: 0;
+}
+
+.footer .container {
+  position: relative;
+  z-index: 1;
+}
+
+.footer h3 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.footer p {
+  font-size: 1.2rem;
+  max-width: 700px;
+  margin: 0 auto 30px;
+}
+
+.btn {
+  display: inline-block;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: 0.5rem 1.5rem;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  border-radius: 50px;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.btn-light {
+  color: black;
+  background-color: var(--primary);
+  border-color: var(--primary);
+  box-shadow: 0 5px 15px rgba(108, 99, 255, 0.3);
+}
+
+.btn-light:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(108, 99, 255, 0.4);
+}
+
+.btn-lg {
+  padding: 0.75rem 2rem;
+  font-size: 1.25rem;
+}
+
+/* ====== ANIMATIONS ====== */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.floating {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-delay-1 {
+  animation-delay: 0.2s;
+}
+
+.animate-delay-2 {
+  animation-delay: 0.4s;
+}
+
+.animate-delay-3 {
+  animation-delay: 0.6s;
+}
+
+/* ====== RESPONSIVE STYLES ====== */
+@media (max-width: 992px) {
+  .hero-section h1 {
+    font-size: 2.8rem;
+  }
+  
+  .hero-section p {
+    font-size: 1.3rem;
+  }
+  
+  .footer h3 {
+    font-size: 2rem;
+  }
+  
+  .month-header h3 {
+    font-size: 1.3rem;
+  }
+  
+  .hero-container {
+    flex-direction: column;
+  }
+  
+  .enquiry-form {
+    flex: 1;
+    width: 100%;
+    max-width: 500px;
+    margin-top: 40px;
+  }
+
+  /* Navbar for tablet */
+  .nav-menu {
+    position: fixed;
+    top: 80px;
+    left: -100%;
+    width: 80%;
+    height: calc(100vh - 80px);
+    background: white;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: var(--transition);
+  }
+
+  .nav-menu.active {
+    left: 0;
+  }
+
+  .nav-item {
+    margin: 10px 0;
+    width: 100%;
+  }
+
+  .nav-link {
+    padding: 12px 15px;
+    width: 100%;
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  .dropdown-menu {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    box-shadow: none;
+    padding: 0;
+    margin-top: 10px;
+    display: none;
+  }
+
+  .nav-item:hover .dropdown-menu {
+    display: block;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 150px 20px 80px;
+  }
+  
+  .hero-section h1 {
+    font-size: 2.2rem;
+  }
+  
+  .hero-section p {
+    font-size: 1.1rem;
+  }
+  
+  .col-md-6 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  
+  .footer h3 {
+    font-size: 1.8rem;
+  }
+  
+  .footer p {
+    font-size: 1rem;
+  }
+  
+  .course-highlights {
+    padding: 30px 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-section {
+    padding: 120px 20px 60px;
+  }
+  
+  .hero-section h1 {
+    font-size: 1.8rem;
+  }
+  
+  .hero-badge {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+  }
+  
+  .month-header h3 {
+    font-size: 1.2rem;
+  }
+  
+  .footer h3 {
+    font-size: 1.5rem;
+  }
+  
+  .col-6 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  
+  .btn-lg {
+    padding: 0.6rem 1.5rem;
+    font-size: 1.1rem;
+  }
+  
+  .enquiry-form {
+    padding: 20px;
+  }
+  
+  .enquiry-form h3 {
+    font-size: 1.3rem;
+  }
+
+  /* Navbar for mobile */
+  .nav-container {
+    padding: 15px;
+  }
+
+  .logo-text {
+    font-size: 1.3rem;
+  }
+}
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="#" class="nav-logo">
+                <img src="assets/images/Group 39.png" alt="Metaglobe Institute Logo">
+        <span class="logo-text">Metaglobe<span> Institute</span></span>
+      </a>
+
+      <button class="hamburger">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a href="index.html" class="nav-link active"><i class="fas fa-home"></i> Home</a>
+        </li>
+        <li class="nav-item">
+          <a href="#course-highlights" class="nav-link"><i class="fas fa-star"></i> Highlights</a>
+        </li>
+        <li class="nav-item">
+          <a href="#syllabus" class="nav-link"><i class="fas fa-book-open"></i> Syllabus</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link"><i class="fas fa-chalkboard-teacher"></i> Instructors</a>
+        </li>
+        <li class="nav-item">
+          <a href="#career path" class="nav-link"><i class="fas fa-graduation-cap"></i> Careers</a>
+        </li>
+        <li class="nav-item">
+          <a href="index.html#contact" class="nav-link nav-cta"><i class="fas fa-phone-alt"></i> Contact</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-container">
+        <div class="hero-content animate__animated animate__fadeInLeft">
+          <h1 class="display-4 fw-bold mb-3">MERN Full Stack Developer Course</h1>
+          <p class="lead mb-4">6 Months Comprehensive Training | Beginner to Advanced</p>
+          <div class="d-flex flex-wrap gap-3">
+            <span class="badge hero-badge fs-6 py-2 px-3 floating"><i class="fas fa-clock me-2"></i>6 Months</span>
+            <span class="badge hero-badge fs-6 py-2 px-3 floating" style="animation-delay: 0.2s"><i class="fas fa-laptop me-2"></i>Hybrid Mode</span>
+            <span class="badge hero-badge fs-6 py-2 px-3 floating" style="animation-delay: 0.4s"><i class="fas fa-code me-2"></i>Live Projects</span>
+            <span class="badge hero-badge fs-6 py-2 px-3 floating" style="animation-delay: 0.6s"><i class="fas fa-certificate me-2"></i>Certification</span>
+            <span class="badge hero-badge fs-6 py-2 px-3 floating" style="animation-delay: 0.8s"><i class="fas fa-briefcase me-2"></i>Internship</span>
+          </div>
+        </div>
+
+        <div class="enquiry-form animate__animated">
+          <h3><i class="fas fa-paper-plane me-2"></i>Get Course Details</h3>
+          <form id="enquiryForm">
+            <div class="form-group">
+              <label for="name">Full Name</label>
+              <input type="text" class="form-control" id="name" placeholder="Enter your name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone</label>
+              <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number" required>
+            </div>
+            <div class="form-group">
+              <label for="interest">Interest</label>
+              <select class="form-control" id="interest" required>
+                <option value="">Select your interest</option>
+                <option value="Frontend">Frontend</option>
+                <option value="Backend">Backend</option>
+                <option value="Full Stack">Full Stack</option>
+                <option value="Career Switch">Career Switch</option>
+              </select>
+            </div>
+            <button type="submit" class="btn-submit">Get Details <i class="fas fa-arrow-right ms-2"></i></button>
+          </form>
+
+          <div class="form-success">
+            <i class="fas fa-check-circle"></i>
+            <h4>Thank You!</h4>
+            <p>We've received your enquiry. Our team will contact you shortly.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Course Highlights -->
+  <section class="container" id="course-highlights">
+    <div class="course-highlights animate__animated animate__fadeInUp">
+      <h2 class="text-center mb-4"><i class="fas fa-star me-2"></i>Why Choose This Course?</h2>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="highlight-item">
+            <h5><i class="fas fa-code"></i> Industry-Aligned Curriculum</h5>
+            <p>Project-based learning from day one, ensuring job-ready skills</p>
+          </div>
+          <div class="highlight-item">
+            <h5><i class="fas fa-tools"></i> Technologies Covered</h5>
+            <div class="d-flex flex-wrap">
+              <span class="badge tool-badge">HTML</span>
+              <span class="badge tool-badge">CSS</span>
+              <span class="badge tool-badge">JavaScript</span>
+              <span class="badge tool-badge">React.js</span>
+              <span class="badge tool-badge">Node.js</span>
+              <span class="badge tool-badge">Express.js</span>
+              <span class="badge tool-badge">MongoDB</span>
+              <span class="badge tool-badge">Git</span>
+              <span class="badge tool-badge">Postman</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="highlight-item">
+            <h5><i class="fas fa-server"></i> Internship</h5>
+            <p>Optional internship with AB Software or industry partners</p>
+          </div>
+          <div class="highlight-item">
+            <h5><i class="fas fa-certificate"></i> Certifications</h5>
+            <p>Course Completion + Internship Letter (Optional)</p>
+          </div>
+          <div class="highlight-item">
+            <h5><i class="fas fa-briefcase"></i> Career Support</h5>
+            <p>Resume & portfolio building, GitHub projects, and interview prep</p>
+          </div>
+          <div class="highlight-item">
+            <h5><i class="fas fa-database"></i> Deliverables</h5>
+            <p>Frontend & Backend Apps, REST APIs, Authentication, Deployment</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Course Syllabus -->
+  <section class="container" id="syllabus">
+    <h2 class="text-center mb-5 animate__animated animate__fadeIn"><i class="fas fa-book-open me-2"></i>Course Syllabus</h2>
+
+    <!-- Month 1 -->
+    <div class="month-card animate__animated animate__fadeInUp">
+      <div class="month-header">
+        <h3>Month 1: Frontend Basics</h3>
+      </div>
+      <div class="card-body">
+        <div class="week-item">
+          <h5><i class="fas fa-code"></i> HTML, CSS & Responsive Design</h5>
+          <ul>
+            <li>HTML5, CSS3, Flexbox, Grid, Media Queries</li>
+            <li>JavaScript Fundamentals & DOM Manipulation</li>
+            <li>Bootstrap & Responsive Web Design</li>
+          </ul>
+        </div>
+        <div class="week-item">
+          <h5><i class="fas fa-project-diagram"></i> Mini Project</h5>
+          <ul>
+            <li>Personal Portfolio Website</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Month 2 -->
+    <div class="month-card animate__animated animate__fadeInUp animate-delay-1">
+      <div class="month-header">
+        <h3>Month 2: JavaScript Deep Dive + Git</h3>
+      </div>
+      <div class="card-body">
+        <div class="week-item">
+          <h5><i class="fab fa-js"></i> Advanced JavaScript</h5>
+          <ul>
+            <li>ES6 Features, Promises, Async/Await</li>
+            <li>Fetch API & JSON</li>
+          </ul>
+        </div>
+        <div class="week-item">
+          <h5><i class="fas fa-code-branch"></i> Git & GitHub</h5>
+          <ul>
+            <li>Version Control, Repositories, Pull Requests</li>
+          </ul>
+        </div>
+        <div class="week-item">
+          <h5><i class="fas fa-project-diagram"></i> Mini Project</h5>
+          <ul>
+            <li>Weather App with API Integration</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Month 3 -->
+    <div class="month-card animate__animated animate__fadeInUp animate-delay-2">
+      <div class="month-header">
+        <h3>Month 3: React.js Mastery</h3>
+      </div>
+      <div class="card-body">
+        <div class="week-item">
+          <h5><i class="fab fa-react"></i> React Fundamentals</h5>
+          <ul>
+            <li>JSX, Components, Props, State</li>
+            <li>Hooks: useEffect, useState, useContext</li>
+            <li>Routing & Forms</li>
+          </ul>
+        </div>
+        <div class="week-item">
+          <h5><i class="fas fa-project-diagram"></i> Mini Project</h5>
+          <ul>
+            <li>Task Manager or Blog UI</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Month 4 -->
+    <div class="month-card animate__animated animate__fadeInUp animate-delay-1">
+      <div class="month-header">
+        <h3>Month 4: Backend with Node & Express</h3>
+      </div>
+      <div class="card-body">
+        <div class="week-item">
+          <h5><i class="fab fa-node-js"></i> Server-Side Development</h5>
+          <ul>
+            <li>Node.js Fundamentals</li>
+            <li>Express.js Routing & Middleware</li>
+            <li>REST APIs</li>
+          </ul>
+        </div>
+        <div class="week-item">
+          <h5><i class="fas fa-database"></i> MongoDB & Mongoose</h5>
+          <ul>
+            <li>CRUD Operations, Schema, Validation</li>
+          </ul>
+        </div>
+        <div class="week-item">
+          <h5><i class="fas fa-project-diagram"></i> Mini Project</h5>
+          <ul>
+            <li>Product Catalog REST API</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Month 5 -->
+    <div class="month-card animate__animated animate__fadeInUp animate-delay-2">
+      <div class="month-header">
+        <h3>Month 5: Full Stack Integration</h3>
+      </div>
+      <div class="card-body">
+        <div class="week-item">
+          <h5><i class="fas fa-plug"></i> Connecting Frontend & Backend</h5>
+          <ul>
+            <li>React + Node + MongoDB Integration</li>
+            <li>JWT Authentication & Protected Routes</li>
+            <li>File Uploads, Pagination, Search</li>
+          </ul>
+        </div>
+        <div class="week-item">
+          <h5><i class="fas fa-project-diagram"></i> Mini Project</h5>
+          <ul>
+            <li>User Management Dashboard</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Month 6 -->
+    <div class="month-card animate__animated animate__fadeInUp animate-delay-3">
+      <div class="month-header">
+        <h3>Month 6: Capstone Project + Career Prep</h3>
+      </div>
+      <div class="card-body">
+        <div class="week-item">
+          <h5><i class="fas fa-laptop-code"></i> Build & Deploy</h5>
+          <ul>
+            <li>Netlify/Vercel for Frontend, Render/Railway for Backend</li>
+          </ul>
+        </div>
+        <div class="week-item">
+          <h5><i class="fas fa-briefcase"></i> Career Preparation</h5>
+          <ul>
+            <li>Resume & GitHub Portfolio</li>
+            <li>Mock Interviews & LinkedIn Optimization</li>
+          </ul>
+        </div>
+        <div class="week-item">
+          <h5><i class="fas fa-project-diagram"></i> Capstone Project</h5>
+          <ul>
+            <li>Job Portal, LMS, CRM, or E-Commerce Platform</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Who Can Enroll & Career Paths -->
+  <section class="container mt-5" id="career path">
+    <div class="row">
+      <div class="col-md-6 animate__animated animate__fadeInLeft">
+        <div class="card mb-4 border-0 shadow-sm">
+          <div class="card-body">
+            <h3 class="card-title text-center mb-4"><i class="fas fa-user-graduate me-2"></i>Who Can Enroll?</h3>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><i class="fas fa-check-circle text-success me-2"></i>Students & Graduates (Any Stream)</li>
+              <li class="list-group-item"><i class="fas fa-check-circle text-success me-2"></i>Professionals Transitioning to Web Development</li>
+              <li class="list-group-item"><i class="fas fa-check-circle text-success me-2"></i>Freelancers & Entrepreneurs</li>
+              <li class="list-group-item"><i class="fas fa-check-circle text-success me-2"></i>Anyone passionate about web development</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 animate__animated animate__fadeInRight">
+        <div class="card mb-4 border-0 shadow-sm">
+          <div class="card-body">
+            <h3 class="card-title text-center mb-4"><i class="fas fa-briefcase me-2"></i>Career Paths</h3>
+            <div class="row">
+              <div class="col-6 mb-3">
+                <div class="career-card">
+                  <i class="fas fa-laptop-code fa-2x mb-2"></i>
+                  <h6>Full Stack Developer</h6>
+                  <p class="small text-muted">$65k-$120k</p>
+                </div>
+              </div>
+              <div class="col-6 mb-3">
+                <div class="career-card">
+                  <i class="fab fa-react fa-2x mb-2"></i>
+                  <h6>Frontend Developer (React.js)</h6>
+                  <p class="small text-muted">$55k-$100k</p>
+                </div>
+              </div>
+              <div class="col-6 mb-3">
+                <div class="career-card">
+                  <i class="fab fa-node-js fa-2x mb-2"></i>
+                  <h6>Backend Developer (Node.js)</h6>
+                  <p class="small text-muted">$60k-$110k</p>
+                </div>
+              </div>
+              <div class="col-6 mb-3">
+                <div class="career-card">
+                  <i class="fas fa-globe fa-2x mb-2"></i>
+                  <h6>Web Application Developer</h6>
+                  <p class="small text-muted">$60k-$105k</p>
+                </div>
+              </div>
+              <div class="col-6 mb-3">
+                <div class="career-card">
+                  <i class="fas fa-code fa-2x mb-2"></i>
+                  <h6>Software Engineer</h6>
+                  <p class="small text-muted">$65k-$120k</p>
+                </div>
+              </div>
+              <div class="col-6 mb-3">
+                <div class="career-card">
+                  <i class="fas fa-briefcase fa-2x mb-2"></i>
+                  <h6>Freelance Developer</h6>
+                  <p class="small text-muted">$50-$150/hr</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bonus Features -->
+  <section class="container mb-5">
+    <div class="course-highlights animate__animated animate__fadeIn">
+      <h2 class="text-center mb-4"><i class="fas fa-gift me-2"></i>Bonus Features</h2>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="highlight-item">
+            <h5><i class="fas fa-project-diagram"></i> Live Projects + Capstone</h5>
+            <p>Work on real-world MERN projects to build your portfolio</p>
+          </div>
+          <div class="highlight-item">
+            <h5><i class="fas fa-user-tie"></i> 1-on-1 Mentor Support</h5>
+            <p>Personalized guidance from industry experts</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="highlight-item">
+            <h5><i class="fas fa-briefcase"></i> Freelance Guidance</h5>
+            <p>Learn how to find and manage freelance projects</p>
+          </div>
+          <div class="highlight-item">
+            <h5><i class="fas fa-handshake"></i> Internship Opportunities</h5>
+            <p>Work with AB Software & partners for real experience</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container text-center">
+      <h3 class="animate__animated animate__fadeIn">Ready to Start Your MERN Full Stack Journey?</h3>
+      <p class="lead mb-4 animate__animated animate__fadeIn animate-delay-1">Become job-ready in just 6 months with our intensive MERN Stack program</p>
+      <button class="btn btn-light btn-lg px-4 py-2 animate__animated animate__fadeInUp animate-delay-2">Enroll Now <i class="fas fa-arrow-right ms-2"></i></button>
+    </div>
+  </footer>
+
+  <script>
+    // Navbar scroll effect
+    window.addEventListener('scroll', function() {
+      const navbar = document.querySelector('.navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // Mobile menu toggle
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('.nav-menu');
+
+    hamburger.addEventListener('click', function() {
+      navMenu.classList.toggle('active');
+      hamburger.innerHTML = navMenu.classList.contains('active') ?
+        '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+    });
+
+    // Close menu when clicking on a link
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        navMenu.classList.remove('active');
+        hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+      });
+    });
+
+    // Add scroll animation
+    const animateOnScroll = () => {
+      const elements = document.querySelectorAll('.animate__animated');
+
+      elements.forEach(element => {
+        const elementPosition = element.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+
+        if(elementPosition < windowHeight - 100) {
+          const animationClass = element.classList[1];
+          element.classList.add(animationClass);
+        }
+      });
+    };
+
+    // Form submission
+    const enquiryForm = document.getElementById('enquiryForm');
+    const formSuccess = document.querySelector('.form-success');
+
+    enquiryForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Show success message locally (demo)
+      enquiryForm.style.display = 'none';
+      formSuccess.style.display = 'block';
+
+      // Reset after 5s
+      setTimeout(() => {
+        enquiryForm.reset();
+        enquiryForm.style.display = 'block';
+        formSuccess.style.display = 'none';
+      }, 5000);
+    });
+
+    window.addEventListener('scroll', animateOnScroll);
+    window.addEventListener('load', animateOnScroll);
+  </script>
+</body>
+</html>
